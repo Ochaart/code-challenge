@@ -5,6 +5,11 @@
   justify-content: center;
   align-items: center;
   background: rgba(255, 255, 255, 0.6);
+  font-family: "Calibre", Helvetica, Arial, sans-serif;
+}
+
+.logoContainer {
+  margin-top: 10px;
 }
 
 .form {
@@ -13,4 +18,44 @@
   padding: 16px;
   border-radius: 16px;
   background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form header {
+  font-weight: bold;
+  font-size: 1.6rem;
+  margin: 20px 0;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  color: gray;
+  font-size: .8rem;
+}
+
+.form label:nth-child(4) {
+  margin-bottom: 30px;
+}
+
+.form label input {
+  border: none;
+  border-bottom: 1px solid #d3d3d3;
+  width: 330px;
+  margin-top: 15px;
+}
+
+.createButton {
+  font-family: inherit;
+  background-color: #4840bb;
+  border: 1px solid #4840bb;
+  color: #FFFFFF;
+  border-radius: 8px;
+  width: 340px;
+  height: 40px;
+  margin-bottom: 10px;
 }
