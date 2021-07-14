@@ -6,20 +6,21 @@ interface ValidateUsernameProps {
 }
 
 const ValidateUsername = ({ username } : ValidateUsernameProps) => {
-  const checkRequirements = ( usernameInput: string ) : boolean => {
-    if (usernameInput.length >= 10 && usernameInput.length <= 50) {
-      return true;
-    }
-    return false;
-  }
   const [hasCorrectLength, setHasCorrectLength] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (checkRequirements(username)) {
-      setHasCorrectLength(true);
+  const checkRequirements = ( usernameInput: string ) : void => {
+    if (usernameInput.length >= 10 && usernameInput.length <= 50) {
+      setHasCorrectLength(true)
     } else {
       setHasCorrectLength(false);
     }
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      checkRequirements(username);
+    }, 500);
+    return () => clearTimeout(timer);
   }, [username])
 
   return (
