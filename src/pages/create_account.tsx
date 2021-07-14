@@ -1,18 +1,33 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, MouseEvent, useState } from 'react';
 import styles from 'src/styles/create_account.module.scss';
+import ValidateUsername from '../../components/validateUsername';
 
 export default function CreateAccount() {
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const [showUserReq, setShowUserReq] = useState<boolean>(false);
+  const [showPassReq, setShowPassReq] = useState<boolean>(false);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.name === "username") {
+    if (evt.target.name === 'username') {
       setUsername(evt.target.value);
     }
-    if (evt.target.name === "password") {
+    if (evt.target.name === 'password') {
       setPassword(evt.target.value);
+    }
+  }
+
+  const toggleReqsDisplay = (evt: React.MouseEvent<HTMLElement | HTMLInputElement>): void => {
+    evt.stopPropagation();
+    if (evt.target.name === 'username') {
+      setShowUserReq(true);
+    } else if (evt.target.name === 'password') {
+      setShowPassReq(true);
+    } else {
+      setShowUserReq(false);
+      setShowPassReq(false);
     }
   }
 
@@ -31,7 +46,10 @@ export default function CreateAccount() {
       <Head>
         <title>Create Account</title>
       </Head>
-      <article className={styles.article}>
+      <article
+        className={styles.article}
+        onClick={(evt) => toggleReqsDisplay(evt)}
+      >
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.logoContainer}>
             <Image
@@ -48,8 +66,13 @@ export default function CreateAccount() {
               name="username"
               value={username}
               onChange={(evt) => handleChange(evt)}
-              required>
+              onClick={(evt) => toggleReqsDisplay(evt)}
+              required
+            >
             </input>
+            {showUserReq && (
+              <ValidateUsername username={username} />
+            )}
           </label>
           <label>Password
             <input
@@ -57,7 +80,8 @@ export default function CreateAccount() {
               name="password"
               value={password}
               onChange={(evt) => handleChange(evt)}
-              required>
+              required
+            >
             </input>
           </label>
           <button className={styles.createButton}>Create Account</button>
