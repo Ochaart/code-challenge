@@ -15,7 +15,7 @@ describe('/api/password_exposed', () => {
       },
     });
 
-    await passwordExposed(req, res);
+    passwordExposed(req, res);
 
     expect(res._getStatusCode()).toBe(200);
     expect(res._getJSONData()).toEqual({
@@ -31,7 +31,7 @@ describe('/api/password_exposed', () => {
       },
     });
 
-    await passwordExposed(req, res);
+    passwordExposed(req, res);
 
     expect(res._getStatusCode()).toBe(200);
     expect(res._getJSONData()).toEqual({

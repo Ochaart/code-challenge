@@ -2,17 +2,22 @@ import React, { useState, useEffect } from "react";
 import styles from 'src/styles/validateUsername.module.scss'
 
 interface ValidateUsernameProps {
-  username: string;
+  username: string,
+  hasCorrectUserLength: boolean,
+  setHasCorrectUserLength: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const ValidateUsername = ({ username } : ValidateUsernameProps) => {
-  const [hasCorrectLength, setHasCorrectLength] = useState<boolean>(false);
+const ValidateUsername = ({
+  username,
+  setHasCorrectUserLength,
+  hasCorrectUserLength
+}: ValidateUsernameProps) => {
 
-  const checkRequirements = ( usernameInput: string ) : void => {
+  const checkRequirements = (usernameInput: string): void => {
     if (usernameInput.length >= 10 && usernameInput.length <= 50) {
-      setHasCorrectLength(true)
+      setHasCorrectUserLength(true)
     } else {
-      setHasCorrectLength(false);
+      setHasCorrectUserLength(false);
     }
   }
 
@@ -26,7 +31,7 @@ const ValidateUsername = ({ username } : ValidateUsernameProps) => {
   return (
     <section className={styles.usernameValidators}>
       <ul>
-        <li style={{ color: hasCorrectLength ? "green" : "red"}}>must be greater than 10 and less than 50</li>
+        <li style={{ color: hasCorrectUserLength ? "green" : "red" }}>length greater than 9 and less than 51</li>
       </ul>
     </section>
   )

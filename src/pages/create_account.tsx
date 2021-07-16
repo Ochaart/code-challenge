@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import React, { FormEvent, MouseEvent, useState } from 'react';
+import React, { FormEvent, ChangeEvent, MouseEvent, useState } from 'react';
 import styles from 'src/styles/create_account.module.scss';
 import ValidateUsername from '../../components/validateUsername';
 import ValidatePassword from '../../components/validatePassword';
@@ -10,8 +10,13 @@ export default function CreateAccount() {
   const [password, setPassword] = useState<string>("")
   const [showUserReq, setShowUserReq] = useState<boolean>(false);
   const [showPassReq, setShowPassReq] = useState<boolean>(false);
+  const [hasCorrectUserLength, setHasCorrectUserLength] = useState<boolean>(false);
+  const [hasCorrectPassLength, setHasCorrectPassLength] = useState<boolean>(false);
+  const [hasOneSymbol, setHasOneSymbol] = useState<boolean>(false);
+  const [hasOneLetter, setHasOneLetter] = useState<boolean>(false);
+  const [hasOneNumber, setHasOneNumber] = useState<boolean>(false);
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.name === 'username') {
       setUsername(evt.target.value);
     }
@@ -20,7 +25,7 @@ export default function CreateAccount() {
     }
   }
 
-  const toggleReqsDisplay = (evt: React.MouseEvent<HTMLElement | HTMLInputElement>): void => {
+  const toggleReqsDisplay = (evt: MouseEvent<HTMLElement | HTMLInputElement>): void => {
     evt.stopPropagation();
     if (evt.target.name === 'username') {
       setShowUserReq(true);
@@ -34,14 +39,45 @@ export default function CreateAccount() {
     }
   }
 
+  const checkIfExposedPass = async (password: string): Promise<boolean> => {
+    try {
+      const isExposed = await fetch('/api/password_exposed', {
+        method: 'POST',
+        body: JSON.stringify({ password }),
+      });
+      const { result } = await isExposed.json();
+      return result;
+    } catch (errors) {
+      console.log(errors);
+    }
+  }
+
+  const createAccount = async (username: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/create_new_account', {
+        method: 'POST',
+        body: JSON.stringify({ username, password }),
+      })
+      const { result } = await response.json()
+      return result;
+    } catch (errors) {
+      console.log(errors);
+    }
+  }
+
   async function handleSubmit(evt: FormEvent) {
     evt.preventDefault();
-    const response = await fetch('/api/create_new_account', {
-      method: 'POST',
-      body: JSON.stringify({}),
-    });
-
-    console.log(await response.json());
+    // if (hasCorrectUserLength && hasCorrectPassLength && hasOneLetter && hasOneSymbol && hasOneNumber) {
+    if (!await checkIfExposedPass(password)) {
+      if (await createAccount(username, password)) {
+        console.log('succesfully created an account')
+      } else {
+        console.log('did not pass validation, please try again')
+      }
+    } else {
+      console.log('password is not safe')
+    }
+    // }
   }
 
   return (
@@ -53,7 +89,10 @@ export default function CreateAccount() {
         className={styles.article}
         onClick={(evt) => toggleReqsDisplay(evt)}
       >
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form
+          className={styles.form}
+          onSubmit={(evt) => handleSubmit(evt)}
+        >
           <div className={styles.logoContainer}>
             <Image
               src="/wealthfront.png"
@@ -75,7 +114,11 @@ export default function CreateAccount() {
             >
             </input>
             {showUserReq && (
-              <ValidateUsername username={username} />
+              <ValidateUsername
+                username={username}
+                hasCorrectUserLength={hasCorrectUserLength}
+                setHasCorrectUserLength={setHasCorrectUserLength}
+              />
             )}
           </label>
           <label>Password
@@ -88,7 +131,17 @@ export default function CreateAccount() {
             >
             </input>
             {showPassReq && (
-              <ValidatePassword password={password}/>
+              <ValidatePassword
+                password={password}
+                setHasCorrectPassLength={setHasCorrectPassLength}
+                hasCorrectPassLength={hasCorrectPassLength}
+                setHasOneSymbol={setHasOneSymbol}
+                hasOneSymbol={hasOneSymbol}
+                setHasOneLetter={setHasOneLetter}
+                hasOneLetter={hasOneLetter}
+                setHasOneNumber={setHasOneNumber}
+                hasOneNumber={hasOneNumber}
+              />
             )}
           </label>
           <button className={styles.createButton}>Create Account</button>
