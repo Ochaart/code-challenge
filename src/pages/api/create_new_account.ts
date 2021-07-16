@@ -57,7 +57,7 @@ const checkUserRequirements = (usernameInput: string): boolean => {
   }
 }
 
-export default async function createNewAccount(req: NextApiRequest, res: NextApiResponse<BooleanResult>) {
+export default function createNewAccount(req: NextApiRequest, res: NextApiResponse<BooleanResult>) {
   const { username, password }: CreateNewAccountParameters = JSON.parse(req.body);
   if (checkPassRequirements(password) && checkUserRequirements(username)) {
     res.status(200).json({ result: true });

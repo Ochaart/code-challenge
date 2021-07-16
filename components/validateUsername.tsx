@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import styles from 'src/styles/validateUsername.module.scss'
+import React, { useEffect } from "react";
+import styles from 'src/styles/ValidateUsername.module.scss'
 
 interface ValidateUsernameProps {
   username: string,

@@ -2,8 +2,9 @@ import Head from 'next/head';
 import Image from 'next/image';
 import React, { FormEvent, ChangeEvent, MouseEvent, FocusEvent, useState } from 'react';
 import styles from 'src/styles/create_account.module.scss';
-import ValidateUsername from '../../components/validateUsername';
-import ValidatePassword from '../../components/validatePassword';
+import ValidateUsername from '../../components/ValidateUsername';
+import ValidatePassword from '../../components/ValidatePassword';
+import Modal from '../../components/Modal';
 
 export default function CreateAccount() {
   const [username, setUsername] = useState<string>("")
@@ -15,6 +16,9 @@ export default function CreateAccount() {
   const [hasOneSymbol, setHasOneSymbol] = useState<boolean>(false);
   const [hasOneLetter, setHasOneLetter] = useState<boolean>(false);
   const [hasOneNumber, setHasOneNumber] = useState<boolean>(false);
+  const [shakeMe, setShakeMe] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalText, setModalText] = useState<string>('');
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.name === 'username') {
@@ -69,17 +73,27 @@ export default function CreateAccount() {
     }
   }
 
-  async function handleSubmit(evt: FormEvent) {
+  async function handleSubmit(evt: FormEvent): Promise<void> {
     evt.preventDefault();
     // if (hasCorrectUserLength && hasCorrectPassLength && hasOneLetter && hasOneSymbol && hasOneNumber) {
-    if (!await checkIfExposedPass(password)) {
+    if (!(await checkIfExposedPass(password))) {
       if (await createAccount(username, password)) {
-        console.log('succesfully created an account')
+        console.log('successfully created an account')
+        setShowModal(true);
+        setModalText('Successfully created an account')
       } else {
-        console.log('did not pass validation, please try again')
+        setShakeMe(true);
+        console.log('Did not pass validation, please try again')
+        setTimeout(() => {setShakeMe(false)}, 800)
+        setShowModal(true);
+        setModalText('Did not pass validation, please try again')
       }
     } else {
+      setShakeMe(true);
       console.log('password is not safe')
+      setTimeout(() => {setShakeMe(false)}, 800)
+      setShowModal(true);
+      setModalText('Password is not safe, please try again')
     }
     // }
   }
@@ -150,8 +164,13 @@ export default function CreateAccount() {
               />
             )}
           </label>
-          <button className={styles.createButton}>Create Account</button>
+          <button className={`${styles.createButton} ${shakeMe ? styles.shakeMe : null}`}>Create Account</button>
         </form>
+        {showModal && <Modal
+          setShowModal={setShowModal}
+        >
+          <div>{modalText}</div>
+        </Modal>}
       </article>
     </>
   );

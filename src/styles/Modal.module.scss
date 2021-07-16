@@ -1,0 +1,68 @@
+@keyframes drop {
+  from {
+    transform: translateY(-30%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.overlay {
+  z-index: 98;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal {
+  z-index: 99;
+  /* Everything below is optional styling */
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  max-height: 100%;
+  margin: 0 auto;
+}
+
+.modalClose {
+  background: none;
+  color: white;
+  cursor: pointer;
+  background-color: #4840bb;
+  border: 1px solid #4840bb;
+  border-radius: 8px;
+  margin-top:10px;
+  font-size: 1.2rem;
+}
+
+.modalClose:hover {
+  transform: translateY(-7%);
+  transition: transform .3s;
+}
+
+.modalClose:active {
+  transform: scale(.95);
+  transition: transform .3s;
+}
+
+.modalBody {
+  padding: 20px 24px;
+  border-radius: 8px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  animation: drop .5s;
+}

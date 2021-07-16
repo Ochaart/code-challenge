@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import styles from 'src/styles/validatePassword.module.scss'
+import React, { useEffect } from "react";
+import styles from 'src/styles/ValidatePassword.module.scss'
 
 interface ValidatePasswordProps {
   password: string,
