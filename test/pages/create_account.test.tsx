@@ -23,15 +23,15 @@ describe('CreateAccount', () => {
     userEvent.type(password, '!1asdk;lljasdjllkjhaljdlkjlkjad')
     userEvent.click(screen.getByText('Create Account'));
     await waitFor(() => {
-      expect(fetchMock).toBeCalledTimes(1);
+      expect(fetchMock).toBeCalledTimes(2);
       expect(fetchMock).toBeCalledWith('/api/password_exposed', {
         body: JSON.stringify({ password: '!1asdk;lljasdjllkjhaljdlkjlkjad' }),
         method: 'POST',
       })
+      expect(fetchMock).toBeCalledWith('/api/create_new_account', {
+        body: JSON.stringify({username: 'michael.perez', password: '!1asdk;lljasdjllkjhaljdlkjlkjad'}),
+        method: 'POST',
+      });
     })
-    // expect(fetchMock).toBeCalledWith('/api/create_new_account', {
-    //   body: JSON.stringify({username: "", password: ""}),
-    //   method: 'POST',
-    // });
   });
 });
