@@ -22,6 +22,22 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  min-height: 400px;
+  transition: all .2s ease-in-out;
+}
+
+.pass {
+  min-height: 500px;
+  transition: all .2s ease-in-out;
+}
+.user {
+  min-height: 450px;
+  transition: all .2s ease-in-out;
+}
+
+.default {
+  min-height: 400px;
+  transition: all .15s ease-in-out;
 }
 
 .form header {
@@ -55,4 +71,15 @@
   width: 340px;
   height: 40px;
   margin: 30px 0 10px 0;
+  flex-shrink: 0;
+}
+
+.createButton:hover {
+  transform: translateY(-5%);
+  transition: transform .3s;
+}
+
+.createButton:active {
+  transform: scale(.95);
+  transition: transform .3s;
 }

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import React, { FormEvent, ChangeEvent, MouseEvent, useState } from 'react';
+import React, { FormEvent, ChangeEvent, MouseEvent, FocusEvent, useState } from 'react';
 import styles from 'src/styles/create_account.module.scss';
 import ValidateUsername from '../../components/validateUsername';
 import ValidatePassword from '../../components/validatePassword';
@@ -25,8 +25,12 @@ export default function CreateAccount() {
     }
   }
 
-  const toggleReqsDisplay = (evt: MouseEvent<HTMLElement | HTMLInputElement>): void => {
+  const toggleReqsDisplay = (evt: FocusEvent | MouseEvent<HTMLElement | HTMLInputElement>): void => {
     evt.stopPropagation();
+    const { nodeName } = evt.target as HTMLLabelElement
+    if (nodeName === 'LABEL') {
+      return;
+    }
     if (evt.target.name === 'username') {
       setShowUserReq(true);
       setShowPassReq(false);
@@ -47,8 +51,8 @@ export default function CreateAccount() {
       });
       const { result } = await isExposed.json();
       return result;
-    } catch (errors) {
-      console.log(errors);
+    } catch (err) {
+      throw new err;
     }
   }
 
@@ -60,8 +64,8 @@ export default function CreateAccount() {
       })
       const { result } = await response.json()
       return result;
-    } catch (errors) {
-      console.log(errors);
+    } catch (err) {
+      throw new err;
     }
   }
 
@@ -90,7 +94,8 @@ export default function CreateAccount() {
         onClick={(evt) => toggleReqsDisplay(evt)}
       >
         <form
-          className={styles.form}
+          id="form"
+          className={`${styles.form} ${showPassReq || showUserReq ? (showPassReq ? styles.pass : styles.user) : styles.default}`}
           onSubmit={(evt) => handleSubmit(evt)}
         >
           <div className={styles.logoContainer}>
@@ -108,7 +113,7 @@ export default function CreateAccount() {
               name="username"
               value={username}
               onChange={(evt) => handleChange(evt)}
-              onClick={(evt) => toggleReqsDisplay(evt)}
+              onFocus={(evt) => toggleReqsDisplay(evt)}
               autoComplete="off"
               required
             >
@@ -127,6 +132,7 @@ export default function CreateAccount() {
               name="password"
               value={password}
               onChange={(evt) => handleChange(evt)}
+              onFocus={(evt) => toggleReqsDisplay(evt)}
               required
             >
             </input>
