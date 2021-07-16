@@ -2,9 +2,9 @@ import Head from 'next/head';
 import Image from 'next/image';
 import React, { FormEvent, ChangeEvent, MouseEvent, FocusEvent, useState } from 'react';
 import styles from 'src/styles/create_account.module.scss';
-import ValidateUsername from '../../components/ValidateUsername';
-import ValidatePassword from '../../components/ValidatePassword';
-import Modal from '../../components/Modal';
+import ValidateUsername from '../components/ValidateUsername';
+import ValidatePassword from '../components/ValidatePassword';
+import Modal from '../components/Modal';
 
 export default function CreateAccount() {
   const [username, setUsername] = useState<string>("")
