@@ -78,19 +78,16 @@ export default function CreateAccount() {
     // if (hasCorrectUserLength && hasCorrectPassLength && hasOneLetter && hasOneSymbol && hasOneNumber) {
     if (!(await checkIfExposedPass(password))) {
       if (await createAccount(username, password)) {
-        console.log('successfully created an account')
         setShowModal(true);
         setModalText('Successfully created an account')
       } else {
         setShakeMe(true);
-        console.log('Did not pass validation, please try again')
         setTimeout(() => {setShakeMe(false)}, 800)
         setShowModal(true);
         setModalText('Did not pass validation, please try again')
       }
     } else {
       setShakeMe(true);
-      console.log('password is not safe')
       setTimeout(() => {setShakeMe(false)}, 800)
       setShowModal(true);
       setModalText('Password is not safe, please try again')
