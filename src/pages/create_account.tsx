@@ -78,19 +78,19 @@ export default function CreateAccount() : JSX.Element {
     // if (hasCorrectUserLength && hasCorrectPassLength && hasOneLetter && hasOneSymbol && hasOneNumber) {
     if (!(await checkIfExposedPass(password))) {
       if (await createAccount(username, password)) {
-        setShowModal(true);
         setModalText('Successfully created an account')
+        setShowModal(true);
       } else {
         setShakeMe(true);
         setTimeout(() => {setShakeMe(false)}, 800)
-        setShowModal(true);
         setModalText('Did not pass validation, please try again')
+        setShowModal(true);
       }
     } else {
       setShakeMe(true);
       setTimeout(() => {setShakeMe(false)}, 800)
+      setModalText('Password is not safe, please try another')
       setShowModal(true);
-      setModalText('Password is not safe, please try again')
     }
     // }
   }
@@ -166,7 +166,7 @@ export default function CreateAccount() : JSX.Element {
         {showModal && <Modal
           setShowModal={setShowModal}
         >
-          <div>{modalText}</div>
+          <span data-testid="result">{modalText}</span>
         </Modal>}
       </article>
     </>
