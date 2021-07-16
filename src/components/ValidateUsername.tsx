@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, ReactNode } from "react";
 import styles from 'src/styles/ValidateUsername.module.scss'
 
 interface ValidateUsernameProps {
@@ -11,7 +11,7 @@ const ValidateUsername = ({
   username,
   setHasCorrectUserLength,
   hasCorrectUserLength
-}: ValidateUsernameProps) => {
+}: ValidateUsernameProps) : JSX.Element => {
 
   const checkRequirements = (usernameInput: string): void => {
     if (usernameInput.length >= 10 && usernameInput.length <= 50) {

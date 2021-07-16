@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, ReactNode } from "react";
 import styles from 'src/styles/ValidatePassword.module.scss'
 
 interface ValidatePasswordProps {
@@ -23,7 +23,7 @@ const ValidatePassword = ({
   setHasOneLetter,
   hasOneNumber,
   setHasOneNumber
-}: ValidatePasswordProps) => {
+}: ValidatePasswordProps) : JSX.Element => {
   const checkLength = (passInput: string): void => {
     if (passInput.length >= 20 && passInput.length <= 50) {
       setHasCorrectPassLength(true);

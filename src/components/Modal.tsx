@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styles from 'src/styles/Modal.module.scss';
 
-const Modal = ({ children, setShowModal }) => {
+interface ModalProps {
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+  children?: ReactNode,
+}
+
+const Modal = ({ children, setShowModal } : ModalProps) : JSX.Element => {
   return (
     <div
       className={styles.overlay}

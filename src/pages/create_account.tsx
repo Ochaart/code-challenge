@@ -6,7 +6,7 @@ import ValidateUsername from '../components/ValidateUsername';
 import ValidatePassword from '../components/ValidatePassword';
 import Modal from '../components/Modal';
 
-export default function CreateAccount() {
+export default function CreateAccount() : JSX.Element {
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [showUserReq, setShowUserReq] = useState<boolean>(false);
