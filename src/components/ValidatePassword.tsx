@@ -1,5 +1,6 @@
-import React, { useEffect, ReactNode } from "react";
+import React, { useEffect } from "react";
 import styles from 'src/styles/ValidatePassword.module.scss'
+import validators from '../functions/validators';
 
 interface ValidatePasswordProps {
   password: string,
@@ -24,48 +25,22 @@ const ValidatePassword = ({
   hasOneNumber,
   setHasOneNumber
 }: ValidatePasswordProps) : JSX.Element => {
-  const checkLength = (passInput: string): void => {
-    if (passInput.length >= 20 && passInput.length <= 50) {
-      setHasCorrectPassLength(true);
-    } else {
-      setHasCorrectPassLength(false)
-    }
-  }
-
-  const checkForSymbol = (char: string) : void => {
-    if (["!", "@", "#", "$", "%"].includes(char)) {
-      setHasOneSymbol(true)
-    }
-  }
-
-  const checkForLetter = (char: string): void => {
-    if (char.toLowerCase() != char.toUpperCase()) {
-      setHasOneLetter(true);
-    }
-  }
-
-  const checkForNumber = (char: string): void => {
-    if (!isNaN(parseFloat(char)) && isFinite(Number(char))) {
-      setHasOneNumber(true);
-    }
-  }
-
   const checkRequirements = (passInput: string): void => {
     setHasOneSymbol(false);
     setHasOneLetter(false);
     setHasOneNumber(false);
-    checkLength(passInput);
+    validators.checkPassLength(passInput, setHasCorrectPassLength) as void;
     for (const char of passInput) {
-      checkForSymbol(char);
-      checkForLetter(char);
-      checkForNumber(char)
+      validators.checkForSymbol(char, setHasOneSymbol) as void;
+      validators.checkForLetter(char, setHasOneLetter) as void;
+      validators.checkForNumber(char, setHasOneNumber) as void;
     }
   }
 
   useEffect(() => {
     const timer = setTimeout(() => {
       checkRequirements(password);
-    }, 500);
+    }, 300);
     return () => clearTimeout(timer);
   }, [password])
 

@@ -5,6 +5,8 @@ import styles from 'src/styles/create_account.module.scss';
 import ValidateUsername from '../components/ValidateUsername';
 import ValidatePassword from '../components/ValidatePassword';
 import Modal from '../components/Modal';
+import checkIfExposedPass from '../functions/checkIfExposedPass';
+import createAccount from '../functions/createAccount';
 
 export default function CreateAccount() : JSX.Element {
   const [username, setUsername] = useState<string>("")
@@ -47,49 +49,23 @@ export default function CreateAccount() : JSX.Element {
     }
   }
 
-  const checkIfExposedPass = async (password: string): Promise<boolean> => {
-    try {
-      const isExposed = await fetch('/api/password_exposed', {
-        method: 'POST',
-        body: JSON.stringify({ password }),
-      });
-      const { result } = await isExposed.json();
-      return result;
-    } catch (err) {
-      throw new err;
-    }
-  }
-
-  const createAccount = async (username: string, password: string): Promise<boolean> => {
-    try {
-      const response = await fetch('/api/create_new_account', {
-        method: 'POST',
-        body: JSON.stringify({ username, password }),
-      })
-      const { result } = await response.json()
-      return result;
-    } catch (err) {
-      throw new err;
-    }
-  }
-
   async function handleSubmit(evt: FormEvent): Promise<void> {
     evt.preventDefault();
     // if (hasCorrectUserLength && hasCorrectPassLength && hasOneLetter && hasOneSymbol && hasOneNumber) {
     if (!(await checkIfExposedPass(password))) {
       if (await createAccount(username, password)) {
-        setModalText('Successfully created an account')
+        setModalText('Successfully created an account.')
         setShowModal(true);
       } else {
         setShakeMe(true);
         setTimeout(() => {setShakeMe(false)}, 800)
-        setModalText('Did not pass validation, please try again')
+        setModalText('Did not meet all requirements, please try again.')
         setShowModal(true);
       }
     } else {
       setShakeMe(true);
       setTimeout(() => {setShakeMe(false)}, 800)
-      setModalText('Password is not safe, please try another')
+      setModalText('Password is not safe, please try another.')
       setShowModal(true);
     }
     // }

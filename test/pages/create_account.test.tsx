@@ -35,7 +35,7 @@ describe('CreateAccount', () => {
         body: JSON.stringify({ username: 'michael.perez', password: '!1asdk;lljasdjllkjhaljdlkjlkjad' }),
         method: 'POST',
       });
-      expect(result.innerHTML).toBe('Successfully created an account')
+      expect(result.innerHTML).toBe('Successfully created an account.')
     })
   });
 
@@ -62,7 +62,7 @@ describe('CreateAccount', () => {
         body: JSON.stringify({ username: 'asdasda', password: 'hellloooo' }),
         method: 'POST',
       });
-      expect(result.innerHTML).toBe('Did not pass validation, please try again')
+      expect(result.innerHTML).toBe('Did not meet all requirements, please try again.')
     })
   })
 
@@ -83,7 +83,7 @@ describe('CreateAccount', () => {
         body: JSON.stringify({ password: 'weakpass' }),
         method: 'POST',
       })
-      expect(result.innerHTML).toBe('Password is not safe, please try another')
+      expect(result.innerHTML).toBe('Password is not safe, please try another.')
     })
   })
 });
