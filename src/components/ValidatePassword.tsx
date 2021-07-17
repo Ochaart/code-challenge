@@ -25,6 +25,7 @@ const ValidatePassword = ({
   hasOneNumber,
   setHasOneNumber
 }: ValidatePasswordProps) : JSX.Element => {
+
   const checkRequirements = (passInput: string): void => {
     setHasOneSymbol(false);
     setHasOneLetter(false);

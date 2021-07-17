@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import fetchMock from 'jest-fetch-mock';
 import CreateAccount from 'src/pages/create_account';
+import { server } from '../../config'
 
 describe('CreateAccount', () => {
   beforeEach(() => {
@@ -27,11 +28,11 @@ describe('CreateAccount', () => {
       expect(username.value).toBe('michael.perez')
       expect(password.value).toBe('!1asdk;lljasdjllkjhaljdlkjlkjad')
       expect(fetchMock).toBeCalledTimes(2);
-      expect(fetchMock).toBeCalledWith('/api/password_exposed', {
+      expect(fetchMock).toBeCalledWith(`${server}/api/password_exposed`, {
         body: JSON.stringify({ password: '!1asdk;lljasdjllkjhaljdlkjlkjad' }),
         method: 'POST',
       })
-      expect(fetchMock).toBeCalledWith('/api/create_new_account', {
+      expect(fetchMock).toBeCalledWith(`${server}/api/create_new_account`, {
         body: JSON.stringify({ username: 'michael.perez', password: '!1asdk;lljasdjllkjhaljdlkjlkjad' }),
         method: 'POST',
       });
@@ -54,11 +55,11 @@ describe('CreateAccount', () => {
       expect(username.value).toBe('asdasda')
       expect(password.value).toBe('hellloooo')
       expect(fetchMock).toBeCalledTimes(2);
-      expect(fetchMock).toBeCalledWith('/api/password_exposed', {
+      expect(fetchMock).toBeCalledWith(`${server}/api/password_exposed`, {
         body: JSON.stringify({ password: 'hellloooo' }),
         method: 'POST',
       })
-      expect(fetchMock).toBeCalledWith('/api/create_new_account', {
+      expect(fetchMock).toBeCalledWith(`${server}/api/create_new_account`, {
         body: JSON.stringify({ username: 'asdasda', password: 'hellloooo' }),
         method: 'POST',
       });
@@ -79,7 +80,7 @@ describe('CreateAccount', () => {
       expect(username.value).toBe('asdasda')
       expect(password.value).toBe('weakpass')
       expect(fetchMock).toBeCalledTimes(1);
-      expect(fetchMock).toBeCalledWith('/api/password_exposed', {
+      expect(fetchMock).toBeCalledWith(`${server}/api/password_exposed`, {
         body: JSON.stringify({ password: 'weakpass' }),
         method: 'POST',
       })
