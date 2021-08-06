@@ -37,10 +37,11 @@ export default function CreateAccount() : JSX.Element {
     if (nodeName === 'LABEL') {
       return;
     }
-    if (evt.target.name === 'username') {
+    const target = evt.target as HTMLInputElement
+    if (target.name === 'username') {
       setShowUserReq(true);
       setShowPassReq(false);
-    } else if (evt.target.name === 'password') {
+    } else if (target.name === 'password') {
       setShowPassReq(true);
       setShowUserReq(false);
     } else {
